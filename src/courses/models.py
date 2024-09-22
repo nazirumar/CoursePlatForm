@@ -158,3 +158,11 @@ class Lesson(models.Model):
 
     class Meta:
         ordering = ['order', '-updated']
+
+    
+    def save(self, *args, **kwargs):
+        # before save
+        if self.public_id == "" or self.public_id is None:
+            self.public_id = generate_public_id(self)
+        super().save(*args, **kwargs)
+        # after save
